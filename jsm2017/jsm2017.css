@@ -1,0 +1,6 @@
+.reveal p {
+    text-align: left;
+}
+.reveal div.figure p {
+    text-align: center;
+}
