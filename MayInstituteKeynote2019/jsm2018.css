@@ -1,0 +1,55 @@
+.reveal p {
+    text-align: left;
+}
+
+.reveal ol.left {
+    text-align: left;
+}
+
+.reveal div.figure p {
+    text-align: center;
+}
+
+.reveal p.small section.small {
+    font-size: medium;
+}
+
+.reveal h1,
+.reveal h2,
+.reveal h4,
+.reveal h5,
+.reveal h6 {
+    text-transform: none;
+    font-family: Rockwell;
+    font-weight: bold
+}
+
+.reveal h3 {
+     font-size: 1.1em;
+    text-transform: none;
+    font-family: Rockwell;
+    font-weight: bold;
+}
+
+		     
+
+.reveal p.small.fragment {
+    font-size: medium;
+}
+
+.reveal p.small {
+    font-size:medium;
+}
+
+.reveal ol.small {
+    font-size:medium;
+}
+
+.reveal div.footer {
+    font-size:medium;
+    text-align:center;
+    position:fixed;
+    bottom:20px;
+    width:100%;
+    align:center;
+}

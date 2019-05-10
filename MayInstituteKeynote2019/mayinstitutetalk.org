@@ -1,0 +1,475 @@
+# -*- org-re-reveal-title-slide: "<h2>%t</h2><h4>%a</h4><h6>Twitter: @groundwalkergmb, Github:@gmbecker</h6>" -*-
+#+title: An Imperfect Guide to Imperfect Reproducibility
+#+author: Gabriel Becker
+#+email: @groundwalkergmb
+#+options: toc:nil timestamp:nil num:nil
+#+options: H:2
+# #+OPTIONS: reveal_title_slide:
+#+REVEAL_THEME: solarized
+#+REVEAL_EXTRA_CSS: ./jsm2018.css
+#+REVEAL_SLIDE_FOOTER: <div class="footer">Gabriel Becker, Keynote - Advanced R Course <br/> May Institute For Computational Proteomics 2019, Northeastern University</div>
+#+REVEAL_TRANS: none
+#+REVEAL_ROOT:./reveal.js
+
+
+* Intro
+** Who I Am
+Gabe Becker
+
+Twitter: [[http://twitter.com/groundwalkergmb][@groundwalkergmb]], GitHub: [[http://github.com/gmbecker][gmbecker
+]]
+
+** What I do
+
+1. Research reproducibility and related issues
+2. Contribute^ to the R language itself
+
+#+ATTR_HTML: :class small
+^ I collaborate with, but am not a member of, the R-core development team.
+
+** Who I Was
+Formerly Scientist at Genentech Research
+
+Some content in this talk was developed (by me) while at, and is
+copyright Genentech, Inc. Used with permission.
+** What I'll Be Talking About
+- /Theory/ - mental models
+  - Reproducibility - what it does and doesn't give us
+  - Generalizing Reproducibility
+- /Practice/ - what *you* can do now to improve your work
+
+* I *Wish* Reproducibility Didn't Matter
+** So Many Things Would Already Be Solved
+** Energy (Cold Fusion)
+#+REVEAL_HTML: <div class="column" style="float:left; width: 50%; height: 50%">
+[[./coldfusionpaper.png]]
+#+REVEAL_HTML: </div><div class="column" style="float:left; width: 50%">
+[[./coldfusionrefute1.png]]
+
+[[./coldfusionrefute2.png]]
+#+REVEAL_HTML: </div>
+** Personalized Cancer Treatment
+#+ATTR_HTML: :height 65% :width 65%
+[[./pottitriple.png]]
+** Economics
+#+REVEAL_HTML: <div class="column" style="float:left; width: 50%; height: 50%">
+[[./reinhartrogoffcritique.png]]
+#+REVEAL_HTML: </div><div class="column" style="float:left; width: 50%">
+[[./loanscodingerror.png]]
+#+REVEAL_HTML: </div>
+** Aliens
+#+ATTR_HTML: :height 65% :width 65%
+[[./arseniclife.png]]
+** But We're Stuck In The Real World
+And none of those claims were true^
+
+#+ATTR_HTML: :class small
+^To the best of our current knowledge
+# Segue: all that said...
+* (Computational) Reproducibility Is Not The Point
+** Knowledge Management
+#+ATTR_HTML: :height 65% :width 65%
+[[./gates_knowledge_management.jpg]]
+** Reproducibility
+#+ATTR_HTML: :height 65% :width 65%
+[[./reproducibility_end.png]]
+** So To Recap
+#+ATTR_REVEAL: :frag (appear) 
+- The world would be better if all results were reproducible
+- I don't /really/ care if your results are reproducible
+** Seem Like A Contradiction?
+[[./strapyourselfdownsbsp.gif]]
+
+* What Do We Really Want?
+** Results Are No Use To Us If They're Not Useful
+#+ATTR_REVEAL: :frag (appear) 
+[[./noduh2.gif]]
+** But How Does Reproducting a Result /Make/ It Useful?
+#+ATTR_HTML: :height 65% :width 65%
+[[./waitwhat.gif]]
+** We Want
+#+ATTR_REVEAL: :frag (appear) 
+Results we can understand and feel confident /using/ (Gavish)
+#+ATTR_REVEAL: :frag (appear) 
+- Incorporating them into our overall understanding
+- Extending or directly utilizing  them in our own work
+- Talking about them at dinner parties 
+
+#+ATTR_HTML: :class small fragment appear
+1 Gavish and Donoho, A Universal Identifier for Computational Results, Procedia Computer Science 4, 2011
+* Trust, Verification and Guarantees
+** Ways We Can Trust Results
+#+ATTR_REVEAL: :frag (appear) 
+1. *Trust in Reporting* - result is /accurately reported/
+2. *Trust in Implementation* - analysis code /successfully implements/ chosen methods
+3. *Statistical Trust* - data and methods are (still) /appropriate/
+4. *Scientific Trust* - result /convincingly supports claim(s)/ about underlying systems or truths
+
+** Reproducibility As A Trust Scale
+[[./trustscale3.png]]
+
+#+ATTR_HTML: :class small 
+Source: Gabriel Becker, copyright Genentech Inc.
+** What Does Strict Reproduction Prove?
+It confirms^ the original analyst(s)
+
+#+ATTR_REVEAL: :frag (appear)
+#+ATTR_HTML: :class left 
+1. Got the result they say they got
+2. By applying the code they provided
+3. To the input data they identified
+4. In the environment specified
+
+#+ATTR_REVEAL: :frag (appear)
+And ensures you have the artifact itself
+
+#+ATTR_HTML: :class small 
+^ technically it does not /confirm/ these in the deductive sense, rather /proves/ them in the "beyond a reasonable doubt" sense.
+* A Brief Thought Experiment
+** Imagine an /Independent, Trusted/ System Which 
+#+ATTR_REVEAL: :frag (appear)
+#+ATTR_HTML: :class left 
+- Accepts code and data, and environment
+- Runs the code
+- Saves and publishes results and associates them with code and env
+- Deletes the data (if necessary)
+
+** This Would Provide Guarantees
+Very similar (at least) to those gained by manual, strict reproduction,
+
+#+ATTR_REVEAL: :frag (appear) 
+*without requiring us to actually recreate the result at an arbitrary later date.*
+* Reproducibility Isn't Everything - A Case Study
+** DESeq Paper
+[[./Huberanders.jpg]]
+** It's Reproducible!
+#+ATTR_HTML: :height 55% :width 55%
+[[file:./andershuberfirst1res.png]]
+#+ATTR_HTML: :class small 
+Source: Gabriel Becker, copyright Genentech Inc.
+
+** Not The Whole Story
+#+ATTR_HTML: :height 55% :width 55%
+[[./andershuberfirst2res.png]]
+#+ATTR_HTML: :class small 
+Source: Gabriel Becker, copyright Genentech Inc.
+
+** /Really/ Not The Whole Story
+#+ATTR_HTML: :height 55% :width 55%
+[[./andershuberall3res.png]]
+#+ATTR_HTML: :class small 
+Source: Gabriel Becker, copyright Genentech Inc.
+
+** 
+[[./doomed.jpg]]
+* Generalized Reproducibility
+** 
+#+BEGIN_QUOTE
+Reproducibility is great, but by itself it is */neither as necessary nor as sufficient/* as many seem to think.
+
+-- Me (and, like, other smart people too probably)
+#+END_QUOTE
+** Topics In Generalized Reproducibility
+- Comparability
+- Currency
+- Completeness
+- Provenance
+
+* Comparability
+** Individual "Data Science" Workflow
+#+ATTR_HTML: :height 65% :width 65%
+[[./individualworkflow.png]]
+
+credit: Wickham
+** Collaboration Is Core
+#+ATTR_HTML: :height 60% :width 60%
+[[./enterpriseworkflow.png]]
+
+#+ATTR_HTML: :class small 
+Source: Gabriel Becker, copyright Genentech Inc.
+
+** Different Versions
+#+ATTR_HTML: :height 58% :width 58%
+[[./comparability.png]]
+
+#+ATTR_HTML: :class small 
+Source: Gabriel Becker, copyright Genentech Inc.
+
+** Same Versions
+#+ATTR_HTML: :height 58% :width 58%
+[[./comparability2.png]]
+
+#+ATTR_HTML: :class small 
+Source: Gabriel Becker, copyright Genentech Inc.
+
+* Currency
+** Recall
+#+ATTR_HTML: :height 55% :width 55%
+[[./andershuberall3res.png]]
+
+#+ATTR_HTML: :class small 
+Source: Gabriel Becker, copyright Genentech Inc.
+
+** Bleeding Edge Methods
+#+ATTR_REVEAL: :frag (appear) 
+- Called this for a reason
+- Continue to be refined
+- Likely won't stay state of the art
+- May not even remain valid
+** No Hard-And-Fast Rule, But Generally
+#+ATTR_REVEAL: :frag (appear) 
+- Modern versions take precedence
+  - skeptical of genes in the 864 but not the 359
+- Modern methods take precedence^
+
+#+ATTR_HTML: :class small fragment appear
+^ By how much depends on why the old method fell out of favor
+** Note
+The Currency concern is very real in Bioinformatics, Deep Learning,
+and other fast moving settings. Its not really a concern when using a "classical" method (GLMs, Random Forests, etc).
+
+* Completeness
+** Literate Statistical Practice
+#+BEGIN_QUOTE
+[The resulting document] should describe results and lessons learned ... as well as a means to reproduce *all steps, even those not used in a concise
+reconstruction*, which were taken in the analysis.
+
+-- Rossini, Literate Statistical Practice (emphasis mine)
+#+END_QUOTE
+** Translation
+#+ATTR_HTML: :height 65% :width 65%
+[[./IcebergFigure2.png]]
+
+
+* Provenance
+** Provenance 
+
+#+BEGIN_QUOTE
+the source or origin of an object; its history and pedigree; a record of the ultimate derivation
+and passage of an item through its various owners
+
+-- Oxford English Dictionary
+#+END_QUOTE
+** Knowing a Result's Provenance Can Help Us  
+#+ATTR_REVEAL: :frag (appear) 
+- Gain insights into the reasoning used to create it,
+- verify acceptable procedures and methods were used, and 
+- know how to reproduce it.
+
+#+ATTR_HTML: :class small
+Paraphrase of Friere et al. in /Provenance for Computational Tasks: A Survey/, Computing in Science & Engineering. 2008 
+
+** Result Provenance Includes Input Data Provenance
+[[./simpsonsrecursivestatic.png]]
+
+* Reproducibility In Practice
+** 
+#+BEGIN_QUOTE
+In theory there is no difference between theory and practice; in
+practice there is. 
+
+-- Unattributed
+#+END_QUOTE
+
+
+* A "Slightly Out-of-Order" Reproduction Process
+** 0. No Way To Get/Recreate Code and Data?
+[[./youlose.gif]]
+** 1. Works With Modern SW Versions
+[[./newsieskingofny.gif]]
+** 2. Try To Recreate Original Environment
+[[./guessnumber.gif]]
+** 3. Worked In 'Original' Env, We're Good!
+[[./yeahbutarewe.gif]]
+** 4. But Modern Results Disagree?
+[[./severalquestions.gif]]
+
+** 5. What Now?
+We can
+#+ATTR_REVEAL: :frag (appear) 
+1. Take the modern results and move forward using them
+2. Apply other methods to look for corroboration
+3. Throw up our hands and switch to a field that uses established classical methods
+
+* Things *You* Can Do *Now*
+# NOTE: potentially move these inline with the sections? not sure
+** Script
+   [[./everythingannie.gif]]
+** Scripted Analyses
+# [[./candytrail.gif]]
+
+[[./chickencement.gif]]
+# We can find, reason about, and sometimes even correct them.
+
+** Manual Steps
+   [[./worldneverknow.gif]]
+
+** Which Would You Rather Be Tested On?
+1. How the chicken crossed the road, or
+2. How many licks it took
+   
+   
+* Versions and File Naming
+** 
+   #+REVEAL_HTML: <div class="column" style="float:left; width: 50%; height: 50%">
+#+ATTR_HTML: :width 60% :height 25% 
+[[./xkcddocuments.png]]
+#+REVEAL_HTML: </div><div class="column" style="float:left; width: 50%">
+[[./phdcomicsfilenames.gif]]
+#+REVEAL_HTML: </div>
+
+** Avoid Encoding Metadata /Solely/ In Filenames
+- Version
+  - =thesis_final_revised_final_v2.Rmd=
+- Species/Gene/etc
+  - =mydata_BRAF_mut_only.dat=
+- Timestamp
+  - =mydata_as_of_2018_03_03.dat=
+
+
+** Version Control   
+[[./justdoit.png]]
+
+* Literate Analyses
+** Use rmarkdown, knitr, or Sweave
+This gets /trust in reporting/ taken care of^ right away, and its super easy.
+
+#+ATTR_HTML: :class small
+^absent actual misconduct, ie editing output files manually
+** Want to Use Jupytr/Rmarkdown Notebooks?
+You *must* go watch or read Joel
+Grus' fantastic talk first
+
+#+ATTR_HTML: :class small
+Watch: [[https://www.youtube.com/watch?v=7jiPeIFXb6U]]
+
+#+ATTR_HTML: :class small
+Read: [[https://docs.google.com/presentation/d/1n2RlMdmv1p25Xy5thJUhkKGvjtV-dkAIsUXP-AL4ffI/]]
+
+** 3 Rules If You Still Want To Use Notebooks
+#+ATTR_REVEAL: :frag (appear) 
+1. Always run them start to finish before publication
+2. *Never* fully trust output in a notebook that wasn't run start to finish
+3. *Always. Run. Them. Start. To. Finish. Before. Publishing.*
+
+* Sharing
+** Current State
+[[./thisisfinecrop.png]]
+** Current State
+Authors for only ~ 44% (36%, 50%) of papers in Science shared both code and data
+[[./stoddenempir.png]]
+** Share Your Code!
+#+ATTR_REVEAL: :frag (appear) 
+- If it's right no one cares how ugly it is
+- If it's wrong, readers deserve to know
+  - And you do, too
+** Share Your Data (If Ethically Allowable)
+#+ATTR_REVEAL: :frag (appear) 
+When to share data is a tricky question.
+
+#+ATTR_REVEAL: :frag (appear) 
+/*But* answers of "never" and "only once its obsolete/irrelevant" make you the villain of the piece./
+
+** Publish Science
+As if /*you, personally*/, will need to understand, evaluate, use, and extend your result in 5 years, /*working only from published materials*/, having lost all personal materials.
+
+* Environment Recreation
+** Environment Recreation
+Crucial for both *multi-analyst collaboration* and for *strict reproduction*
+
+Remember to think about currency 
+** Recreating/Distributing R Package Libraries
+- switchr
+- packrat
+- MRAN snapshots
+
+* Docker For Reproducibility
+** Its Easy
+- Boettiger and Eddelbuettel, An Introduction to Rocker: Docker Containers for R, The R Journal, 2017
+  - https://www.rocker-project.org/
+- See Also: Bioconductor AMIs http://bioconductor.org/help/bioconductor-cloud-ami/
+** Confession
+[[./dontlikeit.jpeg]]
+
+** mybinder.org
+Check out [[http://mybinder.org]]
+
+- Makes your code runnable by others
+- Uses docker
+- Careful of changing dep version in images across time
+
+* Provenance-lite
+** Aspire To
+
+#+ATTR_REVEAL: :frag (appear) 
+- Know where your data came from
+- Pass that information along with you results (and code)
+
+#+ATTR_REVEAL: :frag (appear) 
+(Even if imperfectly)
+
+* Publishing Results
+** What To Include
+
+#+ATTR_REVEAL: :frag (appear) 
+- Code (+ /detailed/ description of any manual steps)
+- Data (if you can)
+- Data Provenance (if you have it)
+- Version/environment info
+** Consider Open Access When You Can
+
+Not a simple issue, but ask yourself /*how can a result be useful to people who can't even read about it?*/
+
+
+* Wrap-up and Conclusions
+** 
+[[./whatthehelljusthappened.gif]]
+** Think About What you Actually Want
+And whether/how you can 
+#+ATTR_HTML: :class left 
+#+ATTR_REVEAL: :frag (appear) 
+1. Get it
+2. Provide it to your readers
+** Reproducibility is NOT Valueless
+But it is most usefully viewed within a larger, more nuanced context.
+** Share Your Code and Data (If Possible)
+And don't be assholes to others who do the same. Even when you find
+problems in it.
+** Publish Science
+You'd be able to trust if it came out of a lab you don't know.
+
+
+* Selected (and Incomplete) Further Readings
+** Compendiums
+#+ATTR_HTML: :class small
+Gentleman and Temple Lang, Statistical Analyses and Reproducible Research, Bioconductor Working Papers, 2014
+#+ATTR_HTML: :class small
+Marwick, Boettiger and Mullen, Packaging Data Analytical Work Reproducibly Using R (and Friends), The American Statistician, 2018
+** FAIR data
+#+ATTR_HTML: :class small
+Wilkinson et al., The FAIR Guiding Principles for scientific data management and stewardship, Scientific Data, 2016
+#+ATTR_HTML: :class small
+https://www.force11.org/group/fairgroup/fairprinciples
+#+ATTR_HTML: :class small
+Dunning, de Smaele and Böhmer, Are the FAIR Data Principles fair? International Journal of Digital Curation, 2017
+** Case Studies and Attempts
+#+ATTR_HTML: :class small
+Marwick, Computational Reproducibility in Archaeological Research: Basic Principles and a Case Study of Their Implementation, Journal of Archaeological Method and Theory, 2016
+#+ATTR_HTML: :class small
+FitzJohn, Pennell, Zanne and Cornwell, Reproducible research is still a challenge, ROpenSci Blog, 2014 https://ropensci.org/blog/2014/06/09/reproducibility/
+#+ATTR_HTML: :class small
+ROpenSci, Reproducibility In Science, http://ropensci.github.io/reproducibility-guide/
+** Cultural Challenges/Barriers to Reproducibilty
+Basically everything Victoria Stodden has ever published.
+
+Seriously, just go read it (at least the abstracts)
+** Provenance(ish) In R
+#+ATTR_HTML: :class small
+Becker, Moore and Lawrence, trackr: A Framework for Enhancing Discoverability and Reproducibility of Data Visualizations and Other Artifacts in R, Journal of Computational and Graphical Statistics, 2019
+#+ATTR_HTML: :class small
+Biecek and Kosiński, archivist: An R Package for Managing, Recording and Restoring Data Analysis Results, Journal of Statistical Software, 2017
+
+** Reproducible Pipelines in R
+#+ATTR_HTML: :class small
+Landau, The drake R package: a pipeline toolkit for reproducibility and high-performance computing. The Journal of Open Source Software, 2018
+

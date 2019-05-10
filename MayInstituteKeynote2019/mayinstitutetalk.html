@@ -1,0 +1,1305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>An Imperfect Guide to Imperfect Reproducibility</title>
+<meta name="author" content="Gabriel Becker"/>
+<style type="text/css">
+.underline { text-decoration: underline; }
+</style>
+<link rel="stylesheet" href="./reveal.js/css/reveal.css"/>
+
+<link rel="stylesheet" href="./reveal.js/css/theme/solarized.css" id="theme"/>
+
+<link rel="stylesheet" href="./jsm2018.css"/>
+
+<!-- If the query includes 'print-pdf', include the PDF print sheet -->
+<script>
+    if( window.location.search.match( /print-pdf/gi ) ) {
+        var link = document.createElement( 'link' );
+        link.rel = 'stylesheet';
+        link.type = 'text/css';
+        link.href = './reveal.js/css/print/pdf.css';
+        document.getElementsByTagName( 'head' )[0].appendChild( link );
+    }
+</script>
+</head>
+<body prefix="dc: http://purl.org/dc/terms/ cc: http://creativecommons.org/ns#">
+<div class="reveal">
+<div class="slides">
+<section id="sec-title-slide">
+<h2>An Imperfect Guide to Imperfect Reproducibility</h2><h4>Gabriel Becker</h4><h6>Twitter: @groundwalkergmb, Github:@gmbecker</h6>
+</section>
+
+
+<section>
+<section id="slide-org122fba4">
+<h2 id="org122fba4">Intro</h2>
+<div class="outline-text-2" id="text-org122fba4">
+</div>
+<div class="slide-footer"><div class="footer">Gabriel Becker, Keynote - Advanced R Course <br/> May Institute For Computational Proteomics 2019, Northeastern University</div></div>
+</section>
+<section id="slide-org594db4a">
+<h3 id="org594db4a">Who I Am</h3>
+<p>
+Gabe Becker
+</p>
+
+<p>
+Twitter: <a href="http://twitter.com/groundwalkergmb">@groundwalkergmb</a>, GitHub: <a href="http://github.com/gmbecker">gmbecker
+</a>
+</p>
+
+<div class="slide-footer"><div class="footer">Gabriel Becker, Keynote - Advanced R Course <br/> May Institute For Computational Proteomics 2019, Northeastern University</div></div>
+</section>
+<section id="slide-org0f96b67">
+<h3 id="org0f96b67">What I do</h3>
+<ol>
+<li>Research reproducibility and related issues</li>
+<li>Contribute^ to the R language itself</li>
+
+</ol>
+
+<p class="small">
+^ I collaborate with, but am not a member of, the R-core development team.
+</p>
+
+<div class="slide-footer"><div class="footer">Gabriel Becker, Keynote - Advanced R Course <br/> May Institute For Computational Proteomics 2019, Northeastern University</div></div>
+</section>
+<section id="slide-org85b7279">
+<h3 id="org85b7279">Who I Was</h3>
+<p>
+Formerly Scientist at Genentech Research
+</p>
+
+<p>
+Some content in this talk was developed (by me) while at, and is
+copyright Genentech, Inc. Used with permission.
+</p>
+<div class="slide-footer"><div class="footer">Gabriel Becker, Keynote - Advanced R Course <br/> May Institute For Computational Proteomics 2019, Northeastern University</div></div>
+</section>
+<section id="slide-org777bcd6">
+<h3 id="org777bcd6">What I'll Be Talking About</h3>
+<ul>
+<li><i>Theory</i> - mental models
+<ul>
+<li>Reproducibility - what it does and doesn't give us</li>
+<li>Generalizing Reproducibility</li>
+
+</ul></li>
+<li><i>Practice</i> - what <b>you</b> can do now to improve your work</li>
+
+</ul>
+
+<div class="slide-footer"><div class="footer">Gabriel Becker, Keynote - Advanced R Course <br/> May Institute For Computational Proteomics 2019, Northeastern University</div></div>
+</section>
+</section>
+<section>
+<section id="slide-org0e643f7">
+<h2 id="org0e643f7">I <b>Wish</b> Reproducibility Didn't Matter</h2>
+<div class="outline-text-2" id="text-org0e643f7">
+</div>
+<div class="slide-footer"><div class="footer">Gabriel Becker, Keynote - Advanced R Course <br/> May Institute For Computational Proteomics 2019, Northeastern University</div></div>
+</section>
+<section id="slide-orgad8806f">
+<h3 id="orgad8806f">So Many Things Would Already Be Solved</h3>
+<div class="slide-footer"><div class="footer">Gabriel Becker, Keynote - Advanced R Course <br/> May Institute For Computational Proteomics 2019, Northeastern University</div></div>
+</section>
+<section id="slide-orgd1a01e6">
+<h3 id="orgd1a01e6">Energy (Cold Fusion)</h3>
+<div class="column" style="float:left; width: 50%; height: 50%">
+
+<div class="figure">
+<p><img src="./coldfusionpaper.png" alt="coldfusionpaper.png">
+</p>
+</div>
+</div><div class="column" style="float:left; width: 50%">
+
+<div class="figure">
+<p><img src="./coldfusionrefute1.png" alt="coldfusionrefute1.png">
+</p>
+</div>
+
+
+<div class="figure">
+<p><img src="./coldfusionrefute2.png" alt="coldfusionrefute2.png">
+</p>
+</div>
+</div>
+<div class="slide-footer"><div class="footer">Gabriel Becker, Keynote - Advanced R Course <br/> May Institute For Computational Proteomics 2019, Northeastern University</div></div>
+</section>
+<section id="slide-org107d8f7">
+<h3 id="org107d8f7">Personalized Cancer Treatment</h3>
+
+<div class="figure">
+<p><img src="./pottitriple.png" alt="pottitriple.png" height="65%" width="65%">
+</p>
+</div>
+<div class="slide-footer"><div class="footer">Gabriel Becker, Keynote - Advanced R Course <br/> May Institute For Computational Proteomics 2019, Northeastern University</div></div>
+</section>
+<section id="slide-org490a34a">
+<h3 id="org490a34a">Economics</h3>
+<div class="column" style="float:left; width: 50%; height: 50%">
+
+<div class="figure">
+<p><img src="./reinhartrogoffcritique.png" alt="reinhartrogoffcritique.png">
+</p>
+</div>
+</div><div class="column" style="float:left; width: 50%">
+
+<div class="figure">
+<p><img src="./loanscodingerror.png" alt="loanscodingerror.png">
+</p>
+</div>
+</div>
+<div class="slide-footer"><div class="footer">Gabriel Becker, Keynote - Advanced R Course <br/> May Institute For Computational Proteomics 2019, Northeastern University</div></div>
+</section>
+<section id="slide-orgad3f374">
+<h3 id="orgad3f374">Aliens</h3>
+
+<div class="figure">
+<p><img src="./arseniclife.png" alt="arseniclife.png" height="65%" width="65%">
+</p>
+</div>
+<div class="slide-footer"><div class="footer">Gabriel Becker, Keynote - Advanced R Course <br/> May Institute For Computational Proteomics 2019, Northeastern University</div></div>
+</section>
+<section id="slide-org08d1f7e">
+<h3 id="org08d1f7e">But We're Stuck In The Real World</h3>
+<p>
+And none of those claims were true^
+</p>
+
+<p class="small">
+^To the best of our current knowledge
+</p>
+<div class="slide-footer"><div class="footer">Gabriel Becker, Keynote - Advanced R Course <br/> May Institute For Computational Proteomics 2019, Northeastern University</div></div>
+</section>
+</section>
+<section>
+<section id="slide-org3ef4f11">
+<h2 id="org3ef4f11">(Computational) Reproducibility Is Not The Point</h2>
+<div class="outline-text-2" id="text-org3ef4f11">
+</div>
+<div class="slide-footer"><div class="footer">Gabriel Becker, Keynote - Advanced R Course <br/> May Institute For Computational Proteomics 2019, Northeastern University</div></div>
+</section>
+<section id="slide-org332c4ab">
+<h3 id="org332c4ab">Knowledge Management</h3>
+
+<div class="figure">
+<p><img src="./gates_knowledge_management.jpg" alt="gates_knowledge_management.jpg" height="65%" width="65%">
+</p>
+</div>
+<div class="slide-footer"><div class="footer">Gabriel Becker, Keynote - Advanced R Course <br/> May Institute For Computational Proteomics 2019, Northeastern University</div></div>
+</section>
+<section id="slide-orgf1c05bb">
+<h3 id="orgf1c05bb">Reproducibility</h3>
+
+<div class="figure">
+<p><img src="./reproducibility_end.png" alt="reproducibility_end.png" height="65%" width="65%">
+</p>
+</div>
+<div class="slide-footer"><div class="footer">Gabriel Becker, Keynote - Advanced R Course <br/> May Institute For Computational Proteomics 2019, Northeastern University</div></div>
+</section>
+<section id="slide-org29027d5">
+<h3 id="org29027d5">So To Recap</h3>
+<ul>
+<li class="fragment appear">The world would be better if all results were reproducible</li>
+<li class="fragment appear">I don't <i>really</i> care if your results are reproducible</li>
+
+</ul>
+<div class="slide-footer"><div class="footer">Gabriel Becker, Keynote - Advanced R Course <br/> May Institute For Computational Proteomics 2019, Northeastern University</div></div>
+</section>
+<section id="slide-org44fcc64">
+<h3 id="org44fcc64">Seem Like A Contradiction?</h3>
+
+<div class="figure">
+<p><img src="./strapyourselfdownsbsp.gif" alt="strapyourselfdownsbsp.gif">
+</p>
+</div>
+
+<div class="slide-footer"><div class="footer">Gabriel Becker, Keynote - Advanced R Course <br/> May Institute For Computational Proteomics 2019, Northeastern University</div></div>
+</section>
+</section>
+<section>
+<section id="slide-org3c614d4">
+<h2 id="org3c614d4">What Do We Really Want?</h2>
+<div class="outline-text-2" id="text-org3c614d4">
+</div>
+<div class="slide-footer"><div class="footer">Gabriel Becker, Keynote - Advanced R Course <br/> May Institute For Computational Proteomics 2019, Northeastern University</div></div>
+</section>
+<section id="slide-org4313493">
+<h3 id="org4313493">Results Are No Use To Us If They're Not Useful</h3>
+
+<div class="figure">
+<p><img src="./noduh2.gif" alt="noduh2.gif" class="fragment (appear)">
+</p>
+</div>
+<div class="slide-footer"><div class="footer">Gabriel Becker, Keynote - Advanced R Course <br/> May Institute For Computational Proteomics 2019, Northeastern University</div></div>
+</section>
+<section id="slide-org7496186">
+<h3 id="org7496186">But How Does Reproducting a Result <i>Make</i> It Useful?</h3>
+
+<div class="figure">
+<p><img src="./waitwhat.gif" alt="waitwhat.gif" height="65%" width="65%">
+</p>
+</div>
+<div class="slide-footer"><div class="footer">Gabriel Becker, Keynote - Advanced R Course <br/> May Institute For Computational Proteomics 2019, Northeastern University</div></div>
+</section>
+<section id="slide-org0b8ab05">
+<h3 id="org0b8ab05">We Want</h3>
+<p class="fragment (appear)">
+Results we can understand and feel confident <i>using</i> (Gavish)
+</p>
+<ul>
+<li class="fragment appear">Incorporating them into our overall understanding</li>
+<li class="fragment appear">Extending or directly utilizing  them in our own work</li>
+<li class="fragment appear">Talking about them at dinner parties</li>
+
+</ul>
+
+<p class="small fragment appear">
+1 Gavish and Donoho, A Universal Identifier for Computational Results, Procedia Computer Science 4, 2011
+</p>
+<div class="slide-footer"><div class="footer">Gabriel Becker, Keynote - Advanced R Course <br/> May Institute For Computational Proteomics 2019, Northeastern University</div></div>
+</section>
+</section>
+<section>
+<section id="slide-org94fdbc3">
+<h2 id="org94fdbc3">Trust, Verification and Guarantees</h2>
+<div class="outline-text-2" id="text-org94fdbc3">
+</div>
+<div class="slide-footer"><div class="footer">Gabriel Becker, Keynote - Advanced R Course <br/> May Institute For Computational Proteomics 2019, Northeastern University</div></div>
+</section>
+<section id="slide-org8cd1e25">
+<h3 id="org8cd1e25">Ways We Can Trust Results</h3>
+<ol>
+<li class="fragment appear"><b>Trust in Reporting</b> - result is <i>accurately reported</i></li>
+<li class="fragment appear"><b>Trust in Implementation</b> - analysis code <i>successfully implements</i> chosen methods</li>
+<li class="fragment appear"><b>Statistical Trust</b> - data and methods are (still) <i>appropriate</i></li>
+<li class="fragment appear"><b>Scientific Trust</b> - result <i>convincingly supports claim(s)</i> about underlying systems or truths</li>
+
+</ol>
+
+<div class="slide-footer"><div class="footer">Gabriel Becker, Keynote - Advanced R Course <br/> May Institute For Computational Proteomics 2019, Northeastern University</div></div>
+</section>
+<section id="slide-org892afe4">
+<h3 id="org892afe4">Reproducibility As A Trust Scale</h3>
+
+<div class="figure">
+<p><img src="./trustscale3.png" alt="trustscale3.png">
+</p>
+</div>
+
+<p class="small">
+Source: Gabriel Becker, copyright Genentech Inc.
+</p>
+<div class="slide-footer"><div class="footer">Gabriel Becker, Keynote - Advanced R Course <br/> May Institute For Computational Proteomics 2019, Northeastern University</div></div>
+</section>
+<section id="slide-org67a2614">
+<h3 id="org67a2614">What Does Strict Reproduction Prove?</h3>
+<p>
+It confirms^ the original analyst(s)
+</p>
+
+<ol class="left">
+<li class="fragment appear">Got the result they say they got</li>
+<li class="fragment appear">By applying the code they provided</li>
+<li class="fragment appear">To the input data they identified</li>
+<li class="fragment appear">In the environment specified</li>
+
+</ol>
+
+<p class="fragment (appear)">
+And ensures you have the artifact itself
+</p>
+
+<p class="small">
+^ technically it does not <i>confirm</i> these in the deductive sense, rather <i>proves</i> them in the "beyond a reasonable doubt" sense.
+</p>
+<div class="slide-footer"><div class="footer">Gabriel Becker, Keynote - Advanced R Course <br/> May Institute For Computational Proteomics 2019, Northeastern University</div></div>
+</section>
+</section>
+<section>
+<section id="slide-org44e4e87">
+<h2 id="org44e4e87">A Brief Thought Experiment</h2>
+<div class="outline-text-2" id="text-org44e4e87">
+</div>
+<div class="slide-footer"><div class="footer">Gabriel Becker, Keynote - Advanced R Course <br/> May Institute For Computational Proteomics 2019, Northeastern University</div></div>
+</section>
+<section id="slide-orgfac1a91">
+<h3 id="orgfac1a91">Imagine an <i>Independent, Trusted</i> System Which</h3>
+<ul class="left">
+<li class="fragment appear">Accepts code and data, and environment</li>
+<li class="fragment appear">Runs the code</li>
+<li class="fragment appear">Saves and publishes results and associates them with code and env</li>
+<li class="fragment appear">Deletes the data (if necessary)</li>
+
+</ul>
+
+<div class="slide-footer"><div class="footer">Gabriel Becker, Keynote - Advanced R Course <br/> May Institute For Computational Proteomics 2019, Northeastern University</div></div>
+</section>
+<section id="slide-orgb1b9b21">
+<h3 id="orgb1b9b21">This Would Provide Guarantees</h3>
+<p>
+Very similar (at least) to those gained by manual, strict reproduction,
+</p>
+
+<p class="fragment (appear)">
+<b>without requiring us to actually recreate the result at an arbitrary later date.</b>
+</p>
+<div class="slide-footer"><div class="footer">Gabriel Becker, Keynote - Advanced R Course <br/> May Institute For Computational Proteomics 2019, Northeastern University</div></div>
+</section>
+</section>
+<section>
+<section id="slide-org4acf011">
+<h2 id="org4acf011">Reproducibility Isn't Everything - A Case Study</h2>
+<div class="outline-text-2" id="text-org4acf011">
+</div>
+<div class="slide-footer"><div class="footer">Gabriel Becker, Keynote - Advanced R Course <br/> May Institute For Computational Proteomics 2019, Northeastern University</div></div>
+</section>
+<section id="slide-orga9c6cbd">
+<h3 id="orga9c6cbd">DESeq Paper</h3>
+
+<div class="figure">
+<p><img src="./Huberanders.jpg" alt="Huberanders.jpg">
+</p>
+</div>
+<div class="slide-footer"><div class="footer">Gabriel Becker, Keynote - Advanced R Course <br/> May Institute For Computational Proteomics 2019, Northeastern University</div></div>
+</section>
+<section id="slide-orgf33aeee">
+<h3 id="orgf33aeee">It's Reproducible!</h3>
+
+<div class="figure">
+<p><img src="./andershuberfirst1res.png" alt="andershuberfirst1res.png" height="55%" width="55%">
+</p>
+</div>
+<p class="small">
+Source: Gabriel Becker, copyright Genentech Inc.
+</p>
+
+<div class="slide-footer"><div class="footer">Gabriel Becker, Keynote - Advanced R Course <br/> May Institute For Computational Proteomics 2019, Northeastern University</div></div>
+</section>
+<section id="slide-org3891877">
+<h3 id="org3891877">Not The Whole Story</h3>
+
+<div class="figure">
+<p><img src="./andershuberfirst2res.png" alt="andershuberfirst2res.png" height="55%" width="55%">
+</p>
+</div>
+<p class="small">
+Source: Gabriel Becker, copyright Genentech Inc.
+</p>
+
+<div class="slide-footer"><div class="footer">Gabriel Becker, Keynote - Advanced R Course <br/> May Institute For Computational Proteomics 2019, Northeastern University</div></div>
+</section>
+<section id="slide-org028bed8">
+<h3 id="org028bed8"><i>Really</i> Not The Whole Story</h3>
+
+<div class="figure">
+<p><img src="./andershuberall3res.png" alt="andershuberall3res.png" height="55%" width="55%">
+</p>
+</div>
+<p class="small">
+Source: Gabriel Becker, copyright Genentech Inc.
+</p>
+
+<div class="slide-footer"><div class="footer">Gabriel Becker, Keynote - Advanced R Course <br/> May Institute For Computational Proteomics 2019, Northeastern University</div></div>
+</section>
+<section id="slide-org102ebb7">
+<h3 id="org102ebb7"></h3>
+
+<div class="figure">
+<p><img src="./doomed.jpg" alt="doomed.jpg">
+</p>
+</div>
+<div class="slide-footer"><div class="footer">Gabriel Becker, Keynote - Advanced R Course <br/> May Institute For Computational Proteomics 2019, Northeastern University</div></div>
+</section>
+</section>
+<section>
+<section id="slide-org647c69b">
+<h2 id="org647c69b">Generalized Reproducibility</h2>
+<div class="outline-text-2" id="text-org647c69b">
+</div>
+<div class="slide-footer"><div class="footer">Gabriel Becker, Keynote - Advanced R Course <br/> May Institute For Computational Proteomics 2019, Northeastern University</div></div>
+</section>
+<section id="slide-orgaaf1588">
+<h3 id="orgaaf1588"></h3>
+<blockquote>
+<p>
+Reproducibility is great, but by itself it is <b><i>neither as necessary nor as sufficient</i></b> as many seem to think.
+</p>
+
+<p>
+&#x2013; Me (and, like, other smart people too probably)
+</p>
+</blockquote>
+<div class="slide-footer"><div class="footer">Gabriel Becker, Keynote - Advanced R Course <br/> May Institute For Computational Proteomics 2019, Northeastern University</div></div>
+</section>
+<section id="slide-org16c9c52">
+<h3 id="org16c9c52">Topics In Generalized Reproducibility</h3>
+<ul>
+<li>Comparability</li>
+<li>Currency</li>
+<li>Completeness</li>
+<li>Provenance</li>
+
+</ul>
+
+<div class="slide-footer"><div class="footer">Gabriel Becker, Keynote - Advanced R Course <br/> May Institute For Computational Proteomics 2019, Northeastern University</div></div>
+</section>
+</section>
+<section>
+<section id="slide-orgc111cff">
+<h2 id="orgc111cff">Comparability</h2>
+<div class="outline-text-2" id="text-orgc111cff">
+</div>
+<div class="slide-footer"><div class="footer">Gabriel Becker, Keynote - Advanced R Course <br/> May Institute For Computational Proteomics 2019, Northeastern University</div></div>
+</section>
+<section id="slide-org5513dc7">
+<h3 id="org5513dc7">Individual "Data Science" Workflow</h3>
+
+<div class="figure">
+<p><img src="./individualworkflow.png" alt="individualworkflow.png" height="65%" width="65%">
+</p>
+</div>
+
+<p>
+credit: Wickham
+</p>
+<div class="slide-footer"><div class="footer">Gabriel Becker, Keynote - Advanced R Course <br/> May Institute For Computational Proteomics 2019, Northeastern University</div></div>
+</section>
+<section id="slide-orgf314856">
+<h3 id="orgf314856">Collaboration Is Core</h3>
+
+<div class="figure">
+<p><img src="./enterpriseworkflow.png" alt="enterpriseworkflow.png" height="60%" width="60%">
+</p>
+</div>
+
+<p class="small">
+Source: Gabriel Becker, copyright Genentech Inc.
+</p>
+
+<div class="slide-footer"><div class="footer">Gabriel Becker, Keynote - Advanced R Course <br/> May Institute For Computational Proteomics 2019, Northeastern University</div></div>
+</section>
+<section id="slide-org3f3521d">
+<h3 id="org3f3521d">Different Versions</h3>
+
+<div class="figure">
+<p><img src="./comparability.png" alt="comparability.png" height="58%" width="58%">
+</p>
+</div>
+
+<p class="small">
+Source: Gabriel Becker, copyright Genentech Inc.
+</p>
+
+<div class="slide-footer"><div class="footer">Gabriel Becker, Keynote - Advanced R Course <br/> May Institute For Computational Proteomics 2019, Northeastern University</div></div>
+</section>
+<section id="slide-orga3cd04b">
+<h3 id="orga3cd04b">Same Versions</h3>
+
+<div class="figure">
+<p><img src="./comparability2.png" alt="comparability2.png" height="58%" width="58%">
+</p>
+</div>
+
+<p class="small">
+Source: Gabriel Becker, copyright Genentech Inc.
+</p>
+
+<div class="slide-footer"><div class="footer">Gabriel Becker, Keynote - Advanced R Course <br/> May Institute For Computational Proteomics 2019, Northeastern University</div></div>
+</section>
+</section>
+<section>
+<section id="slide-org34c7eb9">
+<h2 id="org34c7eb9">Currency</h2>
+<div class="outline-text-2" id="text-org34c7eb9">
+</div>
+<div class="slide-footer"><div class="footer">Gabriel Becker, Keynote - Advanced R Course <br/> May Institute For Computational Proteomics 2019, Northeastern University</div></div>
+</section>
+<section id="slide-orge31c0af">
+<h3 id="orge31c0af">Recall</h3>
+
+<div class="figure">
+<p><img src="./andershuberall3res.png" alt="andershuberall3res.png" height="55%" width="55%">
+</p>
+</div>
+
+<p class="small">
+Source: Gabriel Becker, copyright Genentech Inc.
+</p>
+
+<div class="slide-footer"><div class="footer">Gabriel Becker, Keynote - Advanced R Course <br/> May Institute For Computational Proteomics 2019, Northeastern University</div></div>
+</section>
+<section id="slide-org2d50be0">
+<h3 id="org2d50be0">Bleeding Edge Methods</h3>
+<ul>
+<li class="fragment appear">Called this for a reason</li>
+<li class="fragment appear">Continue to be refined</li>
+<li class="fragment appear">Likely won't stay state of the art</li>
+<li class="fragment appear">May not even remain valid</li>
+
+</ul>
+<div class="slide-footer"><div class="footer">Gabriel Becker, Keynote - Advanced R Course <br/> May Institute For Computational Proteomics 2019, Northeastern University</div></div>
+</section>
+<section id="slide-org7daddad">
+<h3 id="org7daddad">No Hard-And-Fast Rule, But Generally</h3>
+<ul>
+<li class="fragment appear">Modern versions take precedence
+<ul>
+<li>skeptical of genes in the 864 but not the 359</li>
+
+</ul></li>
+<li class="fragment appear">Modern methods take precedence^</li>
+
+</ul>
+
+<p class="small fragment appear">
+^ By how much depends on why the old method fell out of favor
+</p>
+<div class="slide-footer"><div class="footer">Gabriel Becker, Keynote - Advanced R Course <br/> May Institute For Computational Proteomics 2019, Northeastern University</div></div>
+</section>
+<section id="slide-org99ac9f6">
+<h3 id="org99ac9f6">Note</h3>
+<p>
+The Currency concern is very real in Bioinformatics, Deep Learning,
+and other fast moving settings. Its not really a concern when using a "classical" method (GLMs, Random Forests, etc).
+</p>
+
+<div class="slide-footer"><div class="footer">Gabriel Becker, Keynote - Advanced R Course <br/> May Institute For Computational Proteomics 2019, Northeastern University</div></div>
+</section>
+</section>
+<section>
+<section id="slide-org600b006">
+<h2 id="org600b006">Completeness</h2>
+<div class="outline-text-2" id="text-org600b006">
+</div>
+<div class="slide-footer"><div class="footer">Gabriel Becker, Keynote - Advanced R Course <br/> May Institute For Computational Proteomics 2019, Northeastern University</div></div>
+</section>
+<section id="slide-org352278b">
+<h3 id="org352278b">Literate Statistical Practice</h3>
+<blockquote>
+<p>
+[The resulting document] should describe results and lessons learned &#x2026; as well as a means to reproduce <b>all steps, even those not used in a concise
+reconstruction</b>, which were taken in the analysis.
+</p>
+
+<p>
+&#x2013; Rossini, Literate Statistical Practice (emphasis mine)
+</p>
+</blockquote>
+<div class="slide-footer"><div class="footer">Gabriel Becker, Keynote - Advanced R Course <br/> May Institute For Computational Proteomics 2019, Northeastern University</div></div>
+</section>
+<section id="slide-org3acb35b">
+<h3 id="org3acb35b">Translation</h3>
+
+<div class="figure">
+<p><img src="./IcebergFigure2.png" alt="IcebergFigure2.png" height="65%" width="65%">
+</p>
+</div>
+
+
+<div class="slide-footer"><div class="footer">Gabriel Becker, Keynote - Advanced R Course <br/> May Institute For Computational Proteomics 2019, Northeastern University</div></div>
+</section>
+</section>
+<section>
+<section id="slide-org68b7f62">
+<h2 id="org68b7f62">Provenance</h2>
+<div class="outline-text-2" id="text-org68b7f62">
+</div>
+<div class="slide-footer"><div class="footer">Gabriel Becker, Keynote - Advanced R Course <br/> May Institute For Computational Proteomics 2019, Northeastern University</div></div>
+</section>
+<section id="slide-orgabef8be">
+<h3 id="orgabef8be">Provenance</h3>
+<blockquote>
+<p>
+the source or origin of an object; its history and pedigree; a record of the ultimate derivation
+and passage of an item through its various owners
+</p>
+
+<p>
+&#x2013; Oxford English Dictionary
+</p>
+</blockquote>
+<div class="slide-footer"><div class="footer">Gabriel Becker, Keynote - Advanced R Course <br/> May Institute For Computational Proteomics 2019, Northeastern University</div></div>
+</section>
+<section id="slide-orgb04d699">
+<h3 id="orgb04d699">Knowing a Result's Provenance Can Help Us</h3>
+<ul>
+<li class="fragment appear">Gain insights into the reasoning used to create it,</li>
+<li class="fragment appear">verify acceptable procedures and methods were used, and</li>
+<li class="fragment appear">know how to reproduce it.</li>
+
+</ul>
+
+<p class="small">
+Paraphrase of Friere et al. in <i>Provenance for Computational Tasks: A Survey</i>, Computing in Science &amp; Engineering. 2008 
+</p>
+
+<div class="slide-footer"><div class="footer">Gabriel Becker, Keynote - Advanced R Course <br/> May Institute For Computational Proteomics 2019, Northeastern University</div></div>
+</section>
+<section id="slide-orgc3cc7c2">
+<h3 id="orgc3cc7c2">Result Provenance Includes Input Data Provenance</h3>
+
+<div class="figure">
+<p><img src="./simpsonsrecursivestatic.png" alt="simpsonsrecursivestatic.png">
+</p>
+</div>
+
+<div class="slide-footer"><div class="footer">Gabriel Becker, Keynote - Advanced R Course <br/> May Institute For Computational Proteomics 2019, Northeastern University</div></div>
+</section>
+</section>
+<section>
+<section id="slide-orgb1bfaf9">
+<h2 id="orgb1bfaf9">Reproducibility In Practice</h2>
+<div class="outline-text-2" id="text-orgb1bfaf9">
+</div>
+<div class="slide-footer"><div class="footer">Gabriel Becker, Keynote - Advanced R Course <br/> May Institute For Computational Proteomics 2019, Northeastern University</div></div>
+</section>
+<section id="slide-orgf8ce209">
+<h3 id="orgf8ce209"></h3>
+<blockquote>
+<p>
+In theory there is no difference between theory and practice; in
+practice there is. 
+</p>
+
+<p>
+&#x2013; Unattributed
+</p>
+</blockquote>
+
+
+<div class="slide-footer"><div class="footer">Gabriel Becker, Keynote - Advanced R Course <br/> May Institute For Computational Proteomics 2019, Northeastern University</div></div>
+</section>
+</section>
+<section>
+<section id="slide-org8c13bc7">
+<h2 id="org8c13bc7">A "Slightly Out-of-Order" Reproduction Process</h2>
+<div class="outline-text-2" id="text-org8c13bc7">
+</div>
+<div class="slide-footer"><div class="footer">Gabriel Becker, Keynote - Advanced R Course <br/> May Institute For Computational Proteomics 2019, Northeastern University</div></div>
+</section>
+<section id="slide-orgedc9f6d">
+<h3 id="orgedc9f6d">0. No Way To Get/Recreate Code and Data?</h3>
+
+<div class="figure">
+<p><img src="./youlose.gif" alt="youlose.gif">
+</p>
+</div>
+<div class="slide-footer"><div class="footer">Gabriel Becker, Keynote - Advanced R Course <br/> May Institute For Computational Proteomics 2019, Northeastern University</div></div>
+</section>
+<section id="slide-org18159be">
+<h3 id="org18159be">1. Works With Modern SW Versions</h3>
+
+<div class="figure">
+<p><img src="./newsieskingofny.gif" alt="newsieskingofny.gif">
+</p>
+</div>
+<div class="slide-footer"><div class="footer">Gabriel Becker, Keynote - Advanced R Course <br/> May Institute For Computational Proteomics 2019, Northeastern University</div></div>
+</section>
+<section id="slide-orgb5e6787">
+<h3 id="orgb5e6787">2. Try To Recreate Original Environment</h3>
+
+<div class="figure">
+<p><img src="./guessnumber.gif" alt="guessnumber.gif">
+</p>
+</div>
+<div class="slide-footer"><div class="footer">Gabriel Becker, Keynote - Advanced R Course <br/> May Institute For Computational Proteomics 2019, Northeastern University</div></div>
+</section>
+<section id="slide-orgd5fc132">
+<h3 id="orgd5fc132">3. Worked In 'Original' Env, We're Good!</h3>
+
+<div class="figure">
+<p><img src="./yeahbutarewe.gif" alt="yeahbutarewe.gif">
+</p>
+</div>
+<div class="slide-footer"><div class="footer">Gabriel Becker, Keynote - Advanced R Course <br/> May Institute For Computational Proteomics 2019, Northeastern University</div></div>
+</section>
+<section id="slide-orgb359898">
+<h3 id="orgb359898">4. But Modern Results Disagree?</h3>
+
+<div class="figure">
+<p><img src="./severalquestions.gif" alt="severalquestions.gif">
+</p>
+</div>
+
+<div class="slide-footer"><div class="footer">Gabriel Becker, Keynote - Advanced R Course <br/> May Institute For Computational Proteomics 2019, Northeastern University</div></div>
+</section>
+<section id="slide-org6d96eab">
+<h3 id="org6d96eab">5. What Now?</h3>
+<p>
+We can
+</p>
+<ol>
+<li class="fragment appear">Take the modern results and move forward using them</li>
+<li class="fragment appear">Apply other methods to look for corroboration</li>
+<li class="fragment appear">Throw up our hands and switch to a field that uses established classical methods</li>
+
+</ol>
+
+<div class="slide-footer"><div class="footer">Gabriel Becker, Keynote - Advanced R Course <br/> May Institute For Computational Proteomics 2019, Northeastern University</div></div>
+</section>
+</section>
+<section>
+<section id="slide-org612fb4e">
+<h2 id="org612fb4e">Things <b>You</b> Can Do <b>Now</b></h2>
+<div class="slide-footer"><div class="footer">Gabriel Becker, Keynote - Advanced R Course <br/> May Institute For Computational Proteomics 2019, Northeastern University</div></div>
+</section>
+<section id="slide-org3a469dc">
+<h3 id="org3a469dc">Script</h3>
+
+<div class="figure">
+<p><img src="./everythingannie.gif" alt="everythingannie.gif">
+</p>
+</div>
+<div class="slide-footer"><div class="footer">Gabriel Becker, Keynote - Advanced R Course <br/> May Institute For Computational Proteomics 2019, Northeastern University</div></div>
+</section>
+<section id="slide-org7110983">
+<h3 id="org7110983">Scripted Analyses</h3>
+
+<div class="figure">
+<p><img src="./chickencement.gif" alt="chickencement.gif">
+</p>
+</div>
+
+<div class="slide-footer"><div class="footer">Gabriel Becker, Keynote - Advanced R Course <br/> May Institute For Computational Proteomics 2019, Northeastern University</div></div>
+</section>
+<section id="slide-org900dc20">
+<h3 id="org900dc20">Manual Steps</h3>
+
+<div class="figure">
+<p><img src="./worldneverknow.gif" alt="worldneverknow.gif">
+</p>
+</div>
+
+<div class="slide-footer"><div class="footer">Gabriel Becker, Keynote - Advanced R Course <br/> May Institute For Computational Proteomics 2019, Northeastern University</div></div>
+</section>
+<section id="slide-org2100d25">
+<h3 id="org2100d25">Which Would You Rather Be Tested On?</h3>
+<ol>
+<li>How the chicken crossed the road, or</li>
+<li>How many licks it took</li>
+
+</ol>
+
+
+<div class="slide-footer"><div class="footer">Gabriel Becker, Keynote - Advanced R Course <br/> May Institute For Computational Proteomics 2019, Northeastern University</div></div>
+</section>
+</section>
+<section>
+<section id="slide-org5c2d0ad">
+<h2 id="org5c2d0ad">Versions and File Naming</h2>
+<div class="outline-text-2" id="text-org5c2d0ad">
+</div>
+<div class="slide-footer"><div class="footer">Gabriel Becker, Keynote - Advanced R Course <br/> May Institute For Computational Proteomics 2019, Northeastern University</div></div>
+</section>
+<section id="slide-orgc462c72">
+<h3 id="orgc462c72"></h3>
+<div class="column" style="float:left; width: 50%; height: 50%">
+
+<div class="figure">
+<p><img src="./xkcddocuments.png" alt="xkcddocuments.png" width="60%" height="25%">
+</p>
+</div>
+</div><div class="column" style="float:left; width: 50%">
+
+<div class="figure">
+<p><img src="./phdcomicsfilenames.gif" alt="phdcomicsfilenames.gif">
+</p>
+</div>
+</div>
+
+<div class="slide-footer"><div class="footer">Gabriel Becker, Keynote - Advanced R Course <br/> May Institute For Computational Proteomics 2019, Northeastern University</div></div>
+</section>
+<section id="slide-orgf4b5153">
+<h3 id="orgf4b5153">Avoid Encoding Metadata <i>Solely</i> In Filenames</h3>
+<ul>
+<li>Version
+<ul>
+<li><code>thesis_final_revised_final_v2.Rmd</code></li>
+
+</ul></li>
+<li>Species/Gene/etc
+<ul>
+<li><code>mydata_BRAF_mut_only.dat</code></li>
+
+</ul></li>
+<li>Timestamp
+<ul>
+<li><code>mydata_as_of_2018_03_03.dat</code></li>
+
+</ul></li>
+
+</ul>
+
+
+<div class="slide-footer"><div class="footer">Gabriel Becker, Keynote - Advanced R Course <br/> May Institute For Computational Proteomics 2019, Northeastern University</div></div>
+</section>
+<section id="slide-org036616e">
+<h3 id="org036616e">Version Control</h3>
+
+<div class="figure">
+<p><img src="./justdoit.png" alt="justdoit.png">
+</p>
+</div>
+
+<div class="slide-footer"><div class="footer">Gabriel Becker, Keynote - Advanced R Course <br/> May Institute For Computational Proteomics 2019, Northeastern University</div></div>
+</section>
+</section>
+<section>
+<section id="slide-orga999e49">
+<h2 id="orga999e49">Literate Analyses</h2>
+<div class="outline-text-2" id="text-orga999e49">
+</div>
+<div class="slide-footer"><div class="footer">Gabriel Becker, Keynote - Advanced R Course <br/> May Institute For Computational Proteomics 2019, Northeastern University</div></div>
+</section>
+<section id="slide-org96529a8">
+<h3 id="org96529a8">Use rmarkdown, knitr, or Sweave</h3>
+<p>
+This gets <i>trust in reporting</i> taken care of^ right away, and its super easy.
+</p>
+
+<p class="small">
+^absent actual misconduct, ie editing output files manually
+</p>
+<div class="slide-footer"><div class="footer">Gabriel Becker, Keynote - Advanced R Course <br/> May Institute For Computational Proteomics 2019, Northeastern University</div></div>
+</section>
+<section id="slide-orgf01c745">
+<h3 id="orgf01c745">Want to Use Jupytr/Rmarkdown Notebooks?</h3>
+<p>
+You <b>must</b> go watch or read Joel
+Grus' fantastic talk first
+</p>
+
+<p class="small">
+Watch: <a href="https://www.youtube.com/watch?v=7jiPeIFXb6U" class="small">https://www.youtube.com/watch?v=7jiPeIFXb6U</a>
+</p>
+
+<p class="small">
+Read: <a href="https://docs.google.com/presentation/d/1n2RlMdmv1p25Xy5thJUhkKGvjtV-dkAIsUXP-AL4ffI/" class="small">https://docs.google.com/presentation/d/1n2RlMdmv1p25Xy5thJUhkKGvjtV-dkAIsUXP-AL4ffI/</a>
+</p>
+
+<div class="slide-footer"><div class="footer">Gabriel Becker, Keynote - Advanced R Course <br/> May Institute For Computational Proteomics 2019, Northeastern University</div></div>
+</section>
+<section id="slide-org5102d19">
+<h3 id="org5102d19">3 Rules If You Still Want To Use Notebooks</h3>
+<ol>
+<li class="fragment appear">Always run them start to finish before publication</li>
+<li class="fragment appear"><b>Never</b> fully trust output in a notebook that wasn't run start to finish</li>
+<li class="fragment appear"><b>Always. Run. Them. Start. To. Finish. Before. Publishing.</b></li>
+
+</ol>
+
+<div class="slide-footer"><div class="footer">Gabriel Becker, Keynote - Advanced R Course <br/> May Institute For Computational Proteomics 2019, Northeastern University</div></div>
+</section>
+</section>
+<section>
+<section id="slide-org830544f">
+<h2 id="org830544f">Sharing</h2>
+<div class="outline-text-2" id="text-org830544f">
+</div>
+<div class="slide-footer"><div class="footer">Gabriel Becker, Keynote - Advanced R Course <br/> May Institute For Computational Proteomics 2019, Northeastern University</div></div>
+</section>
+<section id="slide-orga30054b">
+<h3 id="orga30054b">Current State</h3>
+
+<div class="figure">
+<p><img src="./thisisfinecrop.png" alt="thisisfinecrop.png">
+</p>
+</div>
+<div class="slide-footer"><div class="footer">Gabriel Becker, Keynote - Advanced R Course <br/> May Institute For Computational Proteomics 2019, Northeastern University</div></div>
+</section>
+<section id="slide-org86afca0">
+<h3 id="org86afca0">Current State</h3>
+<p>
+Authors for only ~ 44% (36%, 50%) of papers in Science shared both code and data
+<img src="./stoddenempir.png" alt="stoddenempir.png">
+</p>
+<div class="slide-footer"><div class="footer">Gabriel Becker, Keynote - Advanced R Course <br/> May Institute For Computational Proteomics 2019, Northeastern University</div></div>
+</section>
+<section id="slide-org5c4b328">
+<h3 id="org5c4b328">Share Your Code!</h3>
+<ul>
+<li class="fragment appear">If it's right no one cares how ugly it is</li>
+<li class="fragment appear">If it's wrong, readers deserve to know
+<ul>
+<li>And you do, too</li>
+
+</ul></li>
+
+</ul>
+<div class="slide-footer"><div class="footer">Gabriel Becker, Keynote - Advanced R Course <br/> May Institute For Computational Proteomics 2019, Northeastern University</div></div>
+</section>
+<section id="slide-org50a2596">
+<h3 id="org50a2596">Share Your Data (If Ethically Allowable)</h3>
+<p class="fragment (appear)">
+When to share data is a tricky question.
+</p>
+
+<p class="fragment (appear)">
+<i><b>But</b> answers of "never" and "only once its obsolete/irrelevant" make you the villain of the piece.</i>
+</p>
+
+<div class="slide-footer"><div class="footer">Gabriel Becker, Keynote - Advanced R Course <br/> May Institute For Computational Proteomics 2019, Northeastern University</div></div>
+</section>
+<section id="slide-org492e65f">
+<h3 id="org492e65f">Publish Science</h3>
+<p>
+As if <i><b>you, personally</b></i>, will need to understand, evaluate, use, and extend your result in 5 years, <i><b>working only from published materials</b></i>, having lost all personal materials.
+</p>
+
+<div class="slide-footer"><div class="footer">Gabriel Becker, Keynote - Advanced R Course <br/> May Institute For Computational Proteomics 2019, Northeastern University</div></div>
+</section>
+</section>
+<section>
+<section id="slide-org9b3cb1e">
+<h2 id="org9b3cb1e">Environment Recreation</h2>
+<div class="outline-text-2" id="text-org9b3cb1e">
+</div>
+<div class="slide-footer"><div class="footer">Gabriel Becker, Keynote - Advanced R Course <br/> May Institute For Computational Proteomics 2019, Northeastern University</div></div>
+</section>
+<section id="slide-org03dc143">
+<h3 id="org03dc143">Environment Recreation</h3>
+<p>
+Crucial for both <b>multi-analyst collaboration</b> and for <b>strict reproduction</b>
+</p>
+
+<p>
+Remember to think about currency 
+</p>
+<div class="slide-footer"><div class="footer">Gabriel Becker, Keynote - Advanced R Course <br/> May Institute For Computational Proteomics 2019, Northeastern University</div></div>
+</section>
+<section id="slide-orgcfdfa6c">
+<h3 id="orgcfdfa6c">Recreating/Distributing R Package Libraries</h3>
+<ul>
+<li>switchr</li>
+<li>packrat</li>
+<li>MRAN snapshots</li>
+
+</ul>
+
+<div class="slide-footer"><div class="footer">Gabriel Becker, Keynote - Advanced R Course <br/> May Institute For Computational Proteomics 2019, Northeastern University</div></div>
+</section>
+</section>
+<section>
+<section id="slide-orgf08d13b">
+<h2 id="orgf08d13b">Docker For Reproducibility</h2>
+<div class="outline-text-2" id="text-orgf08d13b">
+</div>
+<div class="slide-footer"><div class="footer">Gabriel Becker, Keynote - Advanced R Course <br/> May Institute For Computational Proteomics 2019, Northeastern University</div></div>
+</section>
+<section id="slide-org2047f1e">
+<h3 id="org2047f1e">Its Easy</h3>
+<ul>
+<li>Boettiger and Eddelbuettel, An Introduction to Rocker: Docker Containers for R, The R Journal, 2017
+<ul>
+<li><a href="https://www.rocker-project.org/">https://www.rocker-project.org/</a></li>
+
+</ul></li>
+<li>See Also: Bioconductor AMIs <a href="http://bioconductor.org/help/bioconductor-cloud-ami/">http://bioconductor.org/help/bioconductor-cloud-ami/</a></li>
+
+</ul>
+<div class="slide-footer"><div class="footer">Gabriel Becker, Keynote - Advanced R Course <br/> May Institute For Computational Proteomics 2019, Northeastern University</div></div>
+</section>
+<section id="slide-orga38ade6">
+<h3 id="orga38ade6">Confession</h3>
+
+<div class="figure">
+<p><img src="./dontlikeit.jpeg" alt="dontlikeit.jpeg">
+</p>
+</div>
+
+<div class="slide-footer"><div class="footer">Gabriel Becker, Keynote - Advanced R Course <br/> May Institute For Computational Proteomics 2019, Northeastern University</div></div>
+</section>
+<section id="slide-orgb1da82b">
+<h3 id="orgb1da82b">mybinder.org</h3>
+<p>
+Check out <a href="http://mybinder.org">http://mybinder.org</a>
+</p>
+
+<ul>
+<li>Makes your code runnable by others</li>
+<li>Uses docker</li>
+<li>Careful of changing dep version in images across time</li>
+
+</ul>
+
+<div class="slide-footer"><div class="footer">Gabriel Becker, Keynote - Advanced R Course <br/> May Institute For Computational Proteomics 2019, Northeastern University</div></div>
+</section>
+</section>
+<section>
+<section id="slide-orgce822cf">
+<h2 id="orgce822cf">Provenance-lite</h2>
+<div class="outline-text-2" id="text-orgce822cf">
+</div>
+<div class="slide-footer"><div class="footer">Gabriel Becker, Keynote - Advanced R Course <br/> May Institute For Computational Proteomics 2019, Northeastern University</div></div>
+</section>
+<section id="slide-org30c61b0">
+<h3 id="org30c61b0">Aspire To</h3>
+<ul>
+<li class="fragment appear">Know where your data came from</li>
+<li class="fragment appear">Pass that information along with you results (and code)</li>
+
+</ul>
+
+<p class="fragment (appear)">
+(Even if imperfectly)
+</p>
+
+<div class="slide-footer"><div class="footer">Gabriel Becker, Keynote - Advanced R Course <br/> May Institute For Computational Proteomics 2019, Northeastern University</div></div>
+</section>
+</section>
+<section>
+<section id="slide-org878d59f">
+<h2 id="org878d59f">Publishing Results</h2>
+<div class="outline-text-2" id="text-org878d59f">
+</div>
+<div class="slide-footer"><div class="footer">Gabriel Becker, Keynote - Advanced R Course <br/> May Institute For Computational Proteomics 2019, Northeastern University</div></div>
+</section>
+<section id="slide-org62c8786">
+<h3 id="org62c8786">What To Include</h3>
+<ul>
+<li class="fragment appear">Code (+ <i>detailed</i> description of any manual steps)</li>
+<li class="fragment appear">Data (if you can)</li>
+<li class="fragment appear">Data Provenance (if you have it)</li>
+<li class="fragment appear">Version/environment info</li>
+
+</ul>
+<div class="slide-footer"><div class="footer">Gabriel Becker, Keynote - Advanced R Course <br/> May Institute For Computational Proteomics 2019, Northeastern University</div></div>
+</section>
+<section id="slide-org0b3c3a6">
+<h3 id="org0b3c3a6">Consider Open Access When You Can</h3>
+<p>
+Not a simple issue, but ask yourself <i><b>how can a result be useful to people who can't even read about it?</b></i>
+</p>
+
+
+<div class="slide-footer"><div class="footer">Gabriel Becker, Keynote - Advanced R Course <br/> May Institute For Computational Proteomics 2019, Northeastern University</div></div>
+</section>
+</section>
+<section>
+<section id="slide-org3e95609">
+<h2 id="org3e95609">Wrap-up and Conclusions</h2>
+<div class="outline-text-2" id="text-org3e95609">
+</div>
+<div class="slide-footer"><div class="footer">Gabriel Becker, Keynote - Advanced R Course <br/> May Institute For Computational Proteomics 2019, Northeastern University</div></div>
+</section>
+<section id="slide-org346b60d">
+<h3 id="org346b60d"></h3>
+
+<div class="figure">
+<p><img src="./whatthehelljusthappened.gif" alt="whatthehelljusthappened.gif">
+</p>
+</div>
+<div class="slide-footer"><div class="footer">Gabriel Becker, Keynote - Advanced R Course <br/> May Institute For Computational Proteomics 2019, Northeastern University</div></div>
+</section>
+<section id="slide-orga1a332e">
+<h3 id="orga1a332e">Think About What you Actually Want</h3>
+<p>
+And whether/how you can 
+</p>
+<ol class="left">
+<li class="fragment appear">Get it</li>
+<li class="fragment appear">Provide it to your readers</li>
+
+</ol>
+<div class="slide-footer"><div class="footer">Gabriel Becker, Keynote - Advanced R Course <br/> May Institute For Computational Proteomics 2019, Northeastern University</div></div>
+</section>
+<section id="slide-orgadbf8a2">
+<h3 id="orgadbf8a2">Reproducibility is NOT Valueless</h3>
+<p>
+But it is most usefully viewed within a larger, more nuanced context.
+</p>
+<div class="slide-footer"><div class="footer">Gabriel Becker, Keynote - Advanced R Course <br/> May Institute For Computational Proteomics 2019, Northeastern University</div></div>
+</section>
+<section id="slide-orga7f458a">
+<h3 id="orga7f458a">Share Your Code and Data (If Possible)</h3>
+<p>
+And don't be assholes to others who do the same. Even when you find
+problems in it.
+</p>
+<div class="slide-footer"><div class="footer">Gabriel Becker, Keynote - Advanced R Course <br/> May Institute For Computational Proteomics 2019, Northeastern University</div></div>
+</section>
+<section id="slide-org1c8e05c">
+<h3 id="org1c8e05c">Publish Science</h3>
+<p>
+You'd be able to trust if it came out of a lab you don't know.
+</p>
+
+
+<div class="slide-footer"><div class="footer">Gabriel Becker, Keynote - Advanced R Course <br/> May Institute For Computational Proteomics 2019, Northeastern University</div></div>
+</section>
+</section>
+<section>
+<section id="slide-org5b18318">
+<h2 id="org5b18318">Selected (and Incomplete) Further Readings</h2>
+<div class="outline-text-2" id="text-org5b18318">
+</div>
+<div class="slide-footer"><div class="footer">Gabriel Becker, Keynote - Advanced R Course <br/> May Institute For Computational Proteomics 2019, Northeastern University</div></div>
+</section>
+<section id="slide-org0279b97">
+<h3 id="org0279b97">Compendiums</h3>
+<p class="small">
+Gentleman and Temple Lang, Statistical Analyses and Reproducible Research, Bioconductor Working Papers, 2014
+</p>
+<p class="small">
+Marwick, Boettiger and Mullen, Packaging Data Analytical Work Reproducibly Using R (and Friends), The American Statistician, 2018
+</p>
+<div class="slide-footer"><div class="footer">Gabriel Becker, Keynote - Advanced R Course <br/> May Institute For Computational Proteomics 2019, Northeastern University</div></div>
+</section>
+<section id="slide-orge9915b3">
+<h3 id="orge9915b3">FAIR data</h3>
+<p class="small">
+Wilkinson et al., The FAIR Guiding Principles for scientific data management and stewardship, Scientific Data, 2016
+</p>
+<p class="small">
+<a href="https://www.force11.org/group/fairgroup/fairprinciples" class="small">https://www.force11.org/group/fairgroup/fairprinciples</a>
+</p>
+<p class="small">
+Dunning, de Smaele and Böhmer, Are the FAIR Data Principles fair? International Journal of Digital Curation, 2017
+</p>
+<div class="slide-footer"><div class="footer">Gabriel Becker, Keynote - Advanced R Course <br/> May Institute For Computational Proteomics 2019, Northeastern University</div></div>
+</section>
+<section id="slide-org1e23458">
+<h3 id="org1e23458">Case Studies and Attempts</h3>
+<p class="small">
+Marwick, Computational Reproducibility in Archaeological Research: Basic Principles and a Case Study of Their Implementation, Journal of Archaeological Method and Theory, 2016
+</p>
+<p class="small">
+FitzJohn, Pennell, Zanne and Cornwell, Reproducible research is still a challenge, ROpenSci Blog, 2014 <a href="https://ropensci.org/blog/2014/06/09/reproducibility/" class="small">https://ropensci.org/blog/2014/06/09/reproducibility/</a>
+</p>
+<p class="small">
+ROpenSci, Reproducibility In Science, <a href="http://ropensci.github.io/reproducibility-guide/" class="small">http://ropensci.github.io/reproducibility-guide/</a>
+</p>
+<div class="slide-footer"><div class="footer">Gabriel Becker, Keynote - Advanced R Course <br/> May Institute For Computational Proteomics 2019, Northeastern University</div></div>
+</section>
+<section id="slide-orgd324ec1">
+<h3 id="orgd324ec1">Cultural Challenges/Barriers to Reproducibilty</h3>
+<p>
+Basically everything Victoria Stodden has ever published.
+</p>
+
+<p>
+Seriously, just go read it (at least the abstracts)
+</p>
+<div class="slide-footer"><div class="footer">Gabriel Becker, Keynote - Advanced R Course <br/> May Institute For Computational Proteomics 2019, Northeastern University</div></div>
+</section>
+<section id="slide-org5858f46">
+<h3 id="org5858f46">Provenance(ish) In R</h3>
+<p class="small">
+Becker, Moore and Lawrence, trackr: A Framework for Enhancing Discoverability and Reproducibility of Data Visualizations and Other Artifacts in R, Journal of Computational and Graphical Statistics, 2019
+</p>
+<p class="small">
+Biecek and Kosiński, archivist: An R Package for Managing, Recording and Restoring Data Analysis Results, Journal of Statistical Software, 2017
+</p>
+
+<div class="slide-footer"><div class="footer">Gabriel Becker, Keynote - Advanced R Course <br/> May Institute For Computational Proteomics 2019, Northeastern University</div></div>
+</section>
+<section id="slide-orgbc0b1b2">
+<h3 id="orgbc0b1b2">Reproducible Pipelines in R</h3>
+<p class="small">
+Landau, The drake R package: a pipeline toolkit for reproducibility and high-performance computing. The Journal of Open Source Software, 2018
+</p>
+<div class="slide-footer"><div class="footer">Gabriel Becker, Keynote - Advanced R Course <br/> May Institute For Computational Proteomics 2019, Northeastern University</div></div>
+</section>
+</section>
+</div>
+</div>
+<script src="./reveal.js/js/reveal.js"></script>
+<script>
+// Full list of configuration options available here:
+// https://github.com/hakimel/reveal.js#configuration
+Reveal.initialize({
+
+controls: true,
+progress: true,
+history: false,
+center: true,
+slideNumber: 'c',
+rollingLinks: false,
+keyboard: true,
+mouseWheel: false,
+fragmentInURL: false,
+pdfSeparateFragments: true,
+
+overview: true,
+
+theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+transition: Reveal.getQueryHash().transition || 'none', // default/cube/page/concave/zoom/linear/fade/none
+transitionSpeed: 'default',
+multiplex: {
+    secret: '', // null if client
+    id: '', // id, obtained from socket.io server
+    url: '' // Location of socket.io server
+},
+
+// Optional libraries used to extend on reveal.js
+dependencies: [
+{ src: './reveal.js/plugin/coursemod/coursemod.js', async: true },
+{ src: './reveal.js/plugin/quiz/js/quiz.js', async: true, callback: function() { prepareQuizzes({preventUnanswered: true}); } },
+{ src: './reveal.js/plugin/jump/jump.js', async: true },
+ { src: './reveal.js/plugin/toc-progress/toc-progress.js', async: true, callback: function() { toc_progress.initialize('reduce', 'rgba(120,138,130,0.2)'); toc_progress.create(); } },
+ { src: './reveal.js/plugin/anything/anything.js' },
+ { src: './reveal.js/plugin/audio-slideshow/audio-slideshow.js', condition: function( ) { return !!document.body.classList && !Reveal.isSpeakerNotes(); } },
+ { src: './reveal.js/lib/js/classList.js', condition: function() { return !document.body.classList; } },
+ { src: './reveal.js/plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+ { src: './reveal.js/plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+ { src: './reveal.js/plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+ { src: './reveal.js/plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }]
+,audio: {
+    advance: -1, autoplay: true, defaultDuration: 0, defaultAudios: false, playerOpacity: 0.3, playerStyle: 'position: fixed; bottom: 9.5vh; left: 0%; width: 30%; height:30px; z-index: 33;' },
+  anything: [
+	{className: "animate",  initialize: (function(container, options){
+		Reveal.addEventListener( 'fragmentshown', function( event ) {
+			if (typeof event.fragment.beginElement === "function" ) {
+				event.fragment.beginElement();
+			}
+		});
+		Reveal.addEventListener( 'fragmenthidden', function( event ) {
+			if (event.fragment.hasAttribute('data-reverse') ) {
+				var reverse = event.fragment.parentElement.querySelector('[id=\"' + event.fragment.getAttribute('data-reverse') + '\"]');
+				if ( reverse && typeof reverse.beginElement === "function" ) {
+					reverse.beginElement();
+				}
+			}
+		});
+		if ( container.getAttribute("data-svg-src") ) {
+			var xhr = new XMLHttpRequest();
+			xhr.onload = function() {
+				if (xhr.readyState === 4) {
+					var svg = container.querySelector('svg');
+					container.removeChild( svg );
+					container.innerHTML = xhr.responseText + container.innerHTML;
+					if ( svg ) {
+						container.querySelector('svg').innerHTML = container.querySelector('svg').innerHTML + svg.innerHTML;
+					}
+				}
+				else {
+					console.warn( "Failed to get file. ReadyState: " + xhr.readyState + ", Status: " + xhr.status);
+				}
+			};
+			xhr.open( 'GET', container.getAttribute("data-svg-src"), true );
+			xhr.send();
+		}
+	}) },
+	{className: "randomPic",
+	 defaults: {imgalt: "Dummy alt text",
+		    imgcaption: "Image by {name}",
+		    choices: [ {name: "dummyname", path: "dummypath"} ]},
+	 initialize: (function(container, options){
+	     var choice = Math.trunc( Math.random()*(options.choices.length) );
+	     var img = "<img data-src='" + options.choices[choice].path + "' alt='" + options.choices[choice].imgalt + "' />";
+	     var caption = options.imgcaption.replace(new RegExp('\{name\}', 'gm'), options.choices[choice].name);
+	     container.innerHTML = img + caption;
+	 }) },
+	{className: "notes",
+	 initialize: (function(container, options){
+	     container.addEventListener('click', function(e) { RevealNotes.open(); });
+	 }) }
+],
+  coursemod: { enabled: true, shown: false }});
+</script>
+</body>
+</html>
